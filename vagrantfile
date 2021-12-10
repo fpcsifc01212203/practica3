@@ -3,7 +3,20 @@ echo Installing Docker...
 curl -sSL https://get.docker.com/ | sh
 usermod -aG docker vagrant
 SCRIPT
- 
+
+$Registry version: '3' = <<SCRIPT
+services:
+  registry:
+    image: registry:2
+    ports:
+    - "5000:5000"
+    environment:      
+    --restart=always \
+    --name registry \
+    -v /mnt/ntfs:/var/lib/ntfs \
+  registry:2
+SCRIPT
+      
 $manager_script = <<SCRIPT
 echo Swarm Init...
 docker swarm init --listen-addr 10.100.199.200:2377 --advertise-addr 10.100.199.200:2377
